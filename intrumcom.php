@@ -28,7 +28,8 @@ class Intrumcom extends Module
 
     public function install()
     {
-        if (!parent::install() || !$this->registerHook('orderConfirmation') || !$this->registerHook('displayBeforeShoppingCartBlock') ){
+        //displayAfterBodyOpeningTag
+        if (!parent::install() || !$this->registerHook('orderConfirmation') || !$this->registerHook('displayAfterBodyOpeningTag') ){
             return false;
         }
         if ($this->moveOverriteFiles()) {
@@ -95,7 +96,7 @@ class Intrumcom extends Module
         return true;
     }
 
-    public function hookDisplayBeforeShoppingCartBlock($params) {
+    public function hookDisplayAfterBodyOpeningTag($params) {
         if (Configuration::get("INTRUM_ENABLETMX") == 'true' && Configuration::get("INTRUM_TMXORGID") != '') {
 			global $cookie;
 			$cookie->intrumId = Tools::getToken(false);
@@ -283,7 +284,6 @@ class Intrumcom extends Module
     {
         $request = CreatePrestaShopRequestAfterPaid($params["order"]);
         $xml = $request->createRequest();
-
         $intrumCommunicator = new IntrumCommunicator();
         $intrumCommunicator->setServer(Configuration::get("INTRUM_MODE"));
         $response = $intrumCommunicator->sendRequest($xml);
