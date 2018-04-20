@@ -177,6 +177,7 @@ function CreatePrestaShopRequest(CartCore $cart, CustomerCore $customer, Currenc
 
 
 function CreatePrestaShopRequestAfterPaid(OrderCore $order) {
+    global $cookie;
     $customer = new Customer($order->id_customer);
     $currency = new Currency($order->id_currency);
     $invoice_address = new Address($order->id_address_invoice);
