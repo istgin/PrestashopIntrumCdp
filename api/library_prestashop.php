@@ -132,7 +132,6 @@ function CreatePrestaShopRequest(CartCore $cart, CustomerCore $customer, Currenc
     $extraInfo["Name"] = 'IP';
     $extraInfo["Value"] = getClientIp();
     $request->setExtraInfo($extraInfo);
-
     if (Configuration::get("INTRUM_ENABLETMX") == 'true' && Configuration::get("INTRUM_TMXORGID") != '' && !empty($cookie->intrumId)) {
         $extraInfo["Name"] = 'DEVICE_FINGERPRINT_ID';
         $extraInfo["Value"] = $cookie->intrumId;
@@ -177,8 +176,9 @@ function CreatePrestaShopRequest(CartCore $cart, CustomerCore $customer, Currenc
 }
 
 
-function CreatePrestaShopRequestAfterPaid(Cart $cart, OrderCore $order, Currency $currency) {
+function CreatePrestaShopRequestAfterPaid(OrderCore $order) {
     $customer = new Customer($order->id_customer);
+    $currency = new Currency($order->id_currency);
     $invoice_address = new Address($order->id_address_invoice);
     $shipping_address = new Address($order->id_address_delivery);
     $country = new Country($invoice_address->id_country);

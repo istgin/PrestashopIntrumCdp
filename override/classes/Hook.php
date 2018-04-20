@@ -1,5 +1,5 @@
 <?php
-//<version>1.6.0</version>
+//<version>1.7.0</version>
 class Hook extends HookCore
 {
     public static function getHookModuleExecList($hook_name = null)
@@ -72,7 +72,7 @@ class Hook extends HookCore
 
             $list = array();
             $disabledMethods = unserialize(Configuration::get("INTRUM_DISABLED_METHODS"));
-            if ($hook_name == 'displayPayment') {
+            if ($hook_name == 'paymentOptions' ) {
                 /* @var $context Context */
 
                 /* Make intrum request */
@@ -118,7 +118,7 @@ class Hook extends HookCore
                     $checkIntrum = false;
                 }
 
-                $allowed = Array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,50,51,52,53,54,55,56,57);
+                $allowed = Array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,50,51,52,53,54,55,56,57);
                 if (!in_array($status, $allowed)) {
                     $status = 0;
                 }
@@ -128,6 +128,7 @@ class Hook extends HookCore
                         if (!empty($disabledMethods[$status]) && is_array($disabledMethods[$status]) && in_array($row['id_module'], $disabledMethods[$status]) && $checkIntrum) {
                             continue;
                         }
+
                         $row['hook'] = strtolower($row['hook']);
                         if (!isset($list[$row['hook']])) {
                             $list[$row['hook']] = array();
